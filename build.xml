@@ -1,0 +1,32 @@
+<project name="jdbc-ord-mgmt" default = "run-tests">
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete dir="dist"/>
+        <delete file="orderMgmt.zip"/>
+    </target>
+
+    <property name="test-dir" location="test"/>
+    <property name="build" location="build"/>
+
+    <target name="starting">
+        <mkdir dir="${build}/test"/>
+    </target>
+
+    <target name="compileTests" depends="starting">
+        <javac srcdir="${test-dir}" destdir="${build}/test"
+               classpath="${build}/src;External-Lib/junit-4.10.jar;externalLib/uesrRequired/mariadb-java-client-1.1.5.jar" debug="yes" includeantruntime="false">
+        </javac>
+    </target>
+
+    <target name="runTests" depends="compileTests">
+        <junit fork="yes" dir="." failureProperty="test.failed">
+            <classpath>
+                <pathelement location="build/test" />
+                <pathelement location="External-Lib/junit-4.10.jar"/>
+                <pathelement location="External-Lib/mariadb-java-client-1.1.5.jar"/>
+            </classpath>
+        </junit>
+    </target>
+
+</project>
